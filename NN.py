@@ -1,15 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 import sys
-import codecs
 import numpy as np
-
-from sklearn.manifold import TSNE
 import tensorflow as tf
-from tensorflow.python.framework import ops
 import numpy as np
 import re
-from unidecode import unidecode
+
 
 
 #reload(sys)  
