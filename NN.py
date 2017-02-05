@@ -5,8 +5,7 @@ import numpy as np
 import tensorflow as tf
 import numpy as np
 import re
-
-
+import math
 
 #reload(sys)  
 #sys.setdefaultencoding('utf-8')
@@ -81,7 +80,7 @@ for vec in embed():
 	y.append([0, 1])
 	word_vec_nn.append(vec)
 
-print y
+
 x_vals_train=[]
 x_vals_test=[]
 y_vals_train=[]
@@ -94,7 +93,7 @@ for x in range(len(word_vec_nn)):
 		x_vals_train.append(word_vec_nn[x])
 		y_vals_train.append(y[x])
 	elif x%5==4:
-		print word_vec_nn[x]	
+
 		x_vals_test.append(word_vec_nn[x])
 		y_vals_test.append(y[x])
 		"""if (x-4((x+1)/5))%5==(0 or 1 or 2 or 3):	
@@ -105,7 +104,7 @@ for x in range(len(word_vec_nn)):
 			y_vals_validate.append(y[x])"""
 	else:
 		continue
-print(x_vals_test, len(x_vals_test))
+print x_vals_train
 
 """
 np.asarray(x_vals_train)
@@ -124,7 +123,7 @@ display_step = 1
 x_vals = tf.placeholder("float", [None, 702])
 y_vals = tf.placeholder(tf.int64, [None, 2])
 
-print (y_vals_test, len(y_vals_test))
+
 
 
 def multilayer_perceptron(word_vec_nn, weights, biases):
@@ -167,7 +166,7 @@ with tf.Session() as sess:
     # Training cycle
     for epoch in range(training_epochs):
         avg_cost = 0.
-        total_batch = len(x_vals_train)
+        total_batch = ((len(x_vals_train)/50))
         z = 1
         # Loop over all batches
         for i in range(total_batch):
@@ -177,14 +176,16 @@ with tf.Session() as sess:
         		batch_y = y_vals_train[((50*z)-50):z*x]
         		length -= 50
         		z+=1
-        	batch_x = x_vals_train[((length*z)-length): x*z]
-        	batch_y = y_vals_train[((length*z)-length):z*x]
-        	
-        	#map(list,zip(*batch_y))
+        	while length>0:
+        		batch_x = x_vals_train[((length*z)-length): x*z]
+        		batch_y = y_vals_train[((length*z)-length): z*x]
+        		length -= (len(batch_x) +1)
+
         	c = sess.run([optimizer, cost], feed_dict={x_vals: batch_x, y_vals: batch_y})
         	
         	avg_cost = (avg_cost+ c[1]) / (total_batch)
-          
+          	
+          	
         # Display logs per epoch step
         if epoch % display_step == 0:
             print("Epoch:", '%04d' % (epoch+1), "cost=", \
