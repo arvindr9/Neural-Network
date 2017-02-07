@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 import sys
@@ -52,9 +53,9 @@ def embed():
 
 	for vec in word_vecs:
 		SUM = 0.
-		for item in vec[0:25]:
+		for item in vec[0:26]:
 			SUM+=item
-		word_vecs[word_vec][0:25] = [x/float(SUM) for x in word_vecs[word_vec][0:25]]
+		word_vecs[word_vec][0:26] = [x/float(SUM) for x in word_vecs[word_vec][0:25]]
 		SUM = 0
 		for items in vec[26:702]:
 			SUM+=items
