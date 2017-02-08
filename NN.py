@@ -1,6 +1,4 @@
 
-#!/usr/bin/env python
-# -*- coding: utf-8 -*- 
 import sys
 import numpy as np
 import tensorflow as tf
@@ -8,8 +6,7 @@ import numpy as np
 import re
 import math
 
-#reload(sys)  
-#sys.setdefaultencoding('utf-8')
+
 
 def embed():
 	file = raw_input("Enter file name: ")
@@ -25,7 +22,6 @@ def embed():
 	word_vecs = [None]*len(wordList)
 
 
-	#other = {'á':123, 'é':124, 'í':125, 'ó':126, 'ú':127, 'ñ':128, 'Á':123, 'É':124, 'Í':125, 'Ó':126, 'Ú':127, 'Ñ':128, 'ü':129, 'Ü':129}
 
 	for word in wordList:
 		word=word.lower()
@@ -97,22 +93,12 @@ for x in range(len(word_vec_nn)):
 
 		x_vals_test.append(word_vec_nn[x])
 		y_vals_test.append(y[x])
-		"""if (x-4((x+1)/5))%5==(0 or 1 or 2 or 3):	
-			x_vals_test.append(word_vec_nn[x])
-			y_vals_test.append(y[x])
-		elif (x-4((x+1)/5))%5==4:	
-			x_vals_validate.append(word_vec_nn[x])
-			y_vals_validate.append(y[x])"""
+
 	else:
 		continue
 print x_vals_train
 
-"""
-np.asarray(x_vals_train)
-np.asarray(y_vals_train)
-np.asarray(x_vals_test)
-np.asarray(y_vals_test)
-"""
+
 
 
 

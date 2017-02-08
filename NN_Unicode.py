@@ -15,7 +15,7 @@ def embed(file):
 	with open(file, 'r') as protoSTR:
 		STR=protoSTR.read()
 
-		#STR.decode("utf-8")
+
 	wordList = re.sub(ur"[\d]+", ' ', STR, re.UNICODE).split()
 
 
@@ -63,7 +63,7 @@ def embed(file):
 		word_vec+=1
 		word_vecs[word_vec] = [0.0]*2970
 		for letter in word.lower():
-			#print letter
+
 			if letter == '\xc3':
 				y = other[letter+word[(word.index(letter) +1)]]-97
 				word_vecs[word_vec][y]+=1
@@ -127,7 +127,7 @@ def embed(file):
 
 
 	word_vec = 0
-	#print word_vecs
+
 	for vec in word_vecs:
 		SUM = 0.
 		for item in vec[0:54]:
@@ -188,12 +188,12 @@ for x in range(len(word_vec_nn)):
 
 		x_vals_test.append(word_vec_nn[x])
 		y_vals_test.append(y[x])
-		if (x-4*((x+1)/5))%5==0 or (x-4*((x+1)/5))%5==1 or (x-4*((x+1)/5))%5==2 or (x-4*((x+1)/5))%5==3:	
+		"""if (x-4*((x+1)/5))%5==0 or (x-4*((x+1)/5))%5==1 or (x-4*((x+1)/5))%5==2 or (x-4*((x+1)/5))%5==3:	
 			x_vals_test.append(word_vec_nn[x])
 			y_vals_test.append(y[x])
 		elif (x-4*((x+1)/5))%5==4:	
 			x_vals_validate.append(word_vec_nn[x])
-			y_vals_validate.append(y[x])
+			y_vals_validate.append(y[x])"""
 	else:
 		continue
 
@@ -202,7 +202,7 @@ for x in range(len(word_vec_nn)):
 
 learning_rate = .001
 training_epochs = 15
-x = 50
+x = 1000
 display_step = 1
 
 x_vals = tf.placeholder("float", [None, 2970])
@@ -212,59 +212,48 @@ y_vals = tf.placeholder(tf.int64, [None, 2])
 
 
 def multilayer_perceptron(word_vec_nn, weights, biases):
-    # Hidden layer with RELU activation
+
     layer_1 = tf.add(tf.matmul(word_vec_nn, weights['h1']), biases['b1'])
     layer_1 = tf.nn.relu(layer_1)
-    # Hidden layer with RELU activation
     layer_2 = tf.add(tf.matmul(layer_1, weights['h2']), biases['b2'])
     layer_2 = tf.nn.relu(layer_2)
-    # Output layer with linear activation
     out_layer = tf.matmul(layer_2, weights['out']) + biases['out']
     return out_layer
 
-# Store layers weight & bias
 weights = {
-    'h1': tf.Variable(tf.random_normal([2970, 256])),
-    'h2': tf.Variable(tf.random_normal([256, 256])),
-    'out': tf.Variable(tf.random_normal([256, 2]))
+    'h1': tf.Variable(tf.zeros([2970, 256])),
+    'h2': tf.Variable(tf.zeros([256, 256])),
+    'out': tf.Variable(tf.zeros([256, 2]))
 }
 biases = {
-    'b1': tf.Variable(tf.random_normal([256])),
-    'b2': tf.Variable(tf.random_normal([256])),
-    'out': tf.Variable(tf.random_normal([2]))
+    'b1': tf.Variable(tf.zeros([256])),
+    'b2': tf.Variable(tf.zeros([256])),
+    'out': tf.Variable(tf.zeros([2]))
 }
 
-# Construct model
 pred = multilayer_perceptron(x_vals, weights, biases)
 
-# Define loss and optimizer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels = y_vals))
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 
-# Initializing the variables
 init = tf.global_variables_initializer()
 
-# Launch the graph
 with tf.Session() as sess:
     sess.run(init)
 
-    # Training cycle
     for epoch in range(training_epochs):
         avg_cost = 0.
-        #print len(x_vals_train)
-        total_batch = ((len(x_vals_train)/50))
+        total_batch = ((len(x_vals_train)/150))
         
-        #print total_batch
-
-        # Loop over all batches
+       
         for i in range(total_batch):
         	z = 1
-        	#print("i: ", i)
+
         	length = len(x_vals_train)
-        	while length >=50:
-        		batch_x = x_vals_train[((50*z)-x): x*z]
-        		batch_y = y_vals_train[((50*z)-x):z*x]
-        		length -= 50
+        	while length >=150:
+        		batch_x = x_vals_train[((150*z)-x): x*z]
+        		batch_y = y_vals_train[((150*z)-x):z*x]
+        		length -= 150
 
         		z+=1
         	while length>0:
@@ -276,13 +265,22 @@ with tf.Session() as sess:
         	c = sess.run([optimizer, cost], feed_dict={x_vals: batch_x, y_vals: batch_y})
     
         	avg_cost = (avg_cost+ c[1]) / (total_batch)
+        	for i in weights:
+        		bla = tf.reduce_sum(weights[i])
+        		sess.run(bla)
+        	for j in biases:
+        		blas = tf.reduce_sum(biases[j])
+        		sess.run(blas)
+        
+
+
         #tf.train.exponential_decay(learning_rate, global_step, decay_steps, decay_rate, staircase=False, name=None) 	
           	
-        # Display logs per epoch step
+
         if epoch % display_step == 0:
             print("Epoch:", '%04d' % (epoch+1), "cost=", 
                 "{:.9f}".format(avg_cost))
-        #if epoch % 
+
     print("Optimization Finished!")
 
 
