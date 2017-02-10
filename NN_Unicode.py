@@ -1,12 +1,11 @@
 
-
 import sys
 import numpy as np
 import tensorflow as tf
 import numpy as np
 import re
 import math
-
+import random
 
 
 def embed(file):
@@ -86,6 +85,7 @@ def embed(file):
 			else:
 				continue
 
+
 	
 
 
@@ -101,21 +101,21 @@ def embed(file):
 			k = words[letter_count+2]
 			l = words[letter_count+3]
 			if ord(i) in range(97,123) and ord(j) not in range(97,123) and ord(k) not in range(97,123):
-				word_vecs[word_vec][(46*ord(i))+other[j+k]-5281]+=1
+				word_vecs[word_vec][(54*ord(i))+other[j+k]-5281]+=1
 				letter_count+=1
 
 			elif ord(i) not in range(97,123) and ord(j) not in range(97,123) and ord(k) in range(97,123):
 
-				word_vecs[word_vec][(53*other[i+j])+ord(k)-5281]+=1
+				word_vecs[word_vec][(54*other[i+j])+ord(k)-5281]+=1
 				letter_count+=1
 
 			elif ord(i) in range(97,123) and ord(j) in range(97,123) and ord(k) in range(97,123):
-				word_vecs[word_vec][(53*ord(i))+ord(j)-5281]+=1
+				word_vecs[word_vec][(54*ord(i))+ord(j)-5281]+=1
 				letter_count+=1
 
 			elif ord(i) not in range(97,123) and ord(j) not in range(97,123) and ord(k) not in range(97,123) and ord(l) not in range(97,123):
 				
-				word_vecs[word_vec][(53*other[i+j])+other[k+l]-5281]+=1
+				word_vecs[word_vec][(54*other[i+j])+other[k+l]-5281]+=1
 				letter_count+=1
 			
 			else:
@@ -130,20 +130,28 @@ def embed(file):
 
 	for vec in word_vecs:
 		SUM = 0.
-		for item in vec[0:54]:
+		for item in vec[:54]:
 			SUM+=item
-		word_vecs[word_vec][0:54] = [x/float(SUM) for x in word_vecs[word_vec][0:54]]
+		#print SUM
+		word_vecs[word_vec][:54] = [x/float(SUM) for x in word_vecs[word_vec][:54]]
+		#print word_vecs[word_vec][:54]
 		SUM = 0
-		for items in vec[54:2970]:
+		"""for items in vec[54:]:
 			SUM+=items
+		#print SUM
 		if SUM !=0:
-			word_vecs[word_vec][54:2970] = [x/float(SUM) for x in word_vecs[word_vec][54:2970]]
+			word_vecs[word_vec][54:] = [x/float(SUM) for x in word_vecs[word_vec][54:]]
 		else:
-			continue
+			continue"""
+		
 		SUM = 0
 		word_vec+=1
-	return word_vecs
+		vec[54:] = []
+
+
 	word_vec = 0
+	return word_vecs
+
 
 
 
@@ -161,12 +169,12 @@ for vec in embed("i-input.txt"):
 #for vec in embed("p-input.txt"):
 	#y.append([0, 0,1,0,0,0])
 	#word_vec_nn.append(vec)
-#for vec in embed("r-input.txt"):
-	#y.append([0, 0,1,0])
-	#word_vec_nn.append(vec)
-#for vec in embed("f-input.txt"):
-	#y.append([0, 0,0,1])
-	#word_vec_nn.append(vec)
+"""for vec in embed("r-input.txt"):
+	y.append([0, 0,1,0])
+	word_vec_nn.append(vec)
+for vec in embed("f-input.txt"):
+	y.append([0, 0,0,1])
+	word_vec_nn.append(vec)"""
 #for vec in embed("s-input.txt"):
 	#y.append([0, 0,0,0,0,1])
 	#word_vec_nn.append(vec)
@@ -202,12 +210,11 @@ for x in range(len(word_vec_nn)):
 
 learning_rate = .001
 training_epochs = 15
-x = 1000
-display_step = 1
+x = 50
 
-x_vals = tf.placeholder("float", [None, 2970])
+
+x_vals = tf.placeholder("float", [None, 54])
 y_vals = tf.placeholder(tf.int64, [None, 2])
-
 
 
 
@@ -221,70 +228,70 @@ def multilayer_perceptron(word_vec_nn, weights, biases):
     return out_layer
 
 weights = {
-    'h1': tf.Variable(tf.zeros([2970, 256])),
-    'h2': tf.Variable(tf.zeros([256, 256])),
-    'out': tf.Variable(tf.zeros([256, 2]))
+    'h1': tf.Variable(tf.random_normal([54, 256])),
+    'h2': tf.Variable(tf.random_normal([256, 256])),
+    'out': tf.Variable(tf.random_normal([256, 2]))
 }
 biases = {
-    'b1': tf.Variable(tf.zeros([256])),
-    'b2': tf.Variable(tf.zeros([256])),
-    'out': tf.Variable(tf.zeros([2]))
+    'b1': tf.Variable(tf.random_normal([256])),
+    'b2': tf.Variable(tf.random_normal([256])),
+    'out': tf.Variable(tf.random_normal([2]))
 }
 
 pred = multilayer_perceptron(x_vals, weights, biases)
 
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels = y_vals))
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
-
 init = tf.global_variables_initializer()
 
 with tf.Session() as sess:
-    sess.run(init)
+	sess.run(init)
+	for epoch in range(training_epochs):
+		avg_cost = 0.
+		total_batch = ((len(x_vals_train)/50))
+		indices = []
+		for x in range(0,8000):
 
-    for epoch in range(training_epochs):
-        avg_cost = 0.
-        total_batch = ((len(x_vals_train)/150))
-        
-       
-        for i in range(total_batch):
-        	z = 1
+			indices.append(x)
 
-        	length = len(x_vals_train)
-        	while length >=150:
-        		batch_x = x_vals_train[((150*z)-x): x*z]
-        		batch_y = y_vals_train[((150*z)-x):z*x]
-        		length -= 150
+		random.shuffle(indices)
+		
+		for i in range(total_batch):
+			
+			z = 0
 
-        		z+=1
-        	while length>0:
-        		batch_x = x_vals_train[((length*z)-length): x*z]
-        		batch_y = y_vals_train[((length*z)-length): z*x]
-        		length =-1
-        		
-        	
-        	c = sess.run([optimizer, cost], feed_dict={x_vals: batch_x, y_vals: batch_y})
-    
-        	avg_cost = (avg_cost+ c[1]) / (total_batch)
-        	for i in weights:
-        		bla = tf.reduce_sum(weights[i])
-        		sess.run(bla)
-        	for j in biases:
-        		blas = tf.reduce_sum(biases[j])
-        		sess.run(blas)
-        
+			length = len(x_vals_train)
+			batch_x = []
+			batch_y = []
+			for i in range(50*z,50+50*z):
+
+				
+				batch_x.append(word_vec_nn[indices[i]])
+				batch_y.append(y_vals_train[indices[i]])
+
+				z+=1
+
+			c = sess.run([optimizer, cost], feed_dict={x_vals: batch_x, y_vals: batch_y})
+
+			avg_cost = (avg_cost+ c[1]) / (total_batch)
 
 
-        #tf.train.exponential_decay(learning_rate, global_step, decay_steps, decay_rate, staircase=False, name=None) 	
-          	
 
-        if epoch % display_step == 0:
-            print("Epoch:", '%04d' % (epoch+1), "cost=", 
-                "{:.9f}".format(avg_cost))
+		print("Epoch:", '%04d' %(epoch+1), "cost=", "{:.9f}".format(avg_cost))
 
-    print("Optimization Finished!")
+	print("Optimization Finished!")
 
 
-    correct_prediction = tf.equal(tf.argmax(pred, axis = 1), tf.argmax(y_vals, axis = 1))
+	correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y_vals, 1))
 
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-    print("Accuracy:", accuracy.eval({x_vals: x_vals_test, y_vals: y_vals_test}))
+	accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+	np.asarray(x_vals_test)
+	np.asarray(y_vals_test)
+	print("Accuracy:", accuracy.eval({x_vals: x_vals_test, y_vals: y_vals_test}))
+
+
+
+
+
+
+
