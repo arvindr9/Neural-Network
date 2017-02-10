@@ -224,21 +224,17 @@ def multilayer_perceptron(word_vec_nn, weights, biases):
     layer_1 = tf.nn.relu(layer_1)
     layer_2 = tf.add(tf.matmul(layer_1, weights['h2']), biases['b2'])
     layer_2 = tf.nn.relu(layer_2)
-    layer_3 = tf.add(tf.matmul(layer_2, weights['h3']), biases['b3'])
-    layer_3 = tf.nn.relu(layer_3)
-    out_layer = tf.matmul(layer_3, weights['out']) + biases['out']
+    out_layer = tf.matmul(layer_2, weights['out']) + biases['out']
     return out_layer
 
 weights = {
     'h1': tf.Variable(tf.random_normal([54, 256])),
     'h2': tf.Variable(tf.random_normal([256, 256])),
-    'h3': tf.Variable(tf.random_normal([256, 256])),
     'out': tf.Variable(tf.random_normal([256, 2]))
 }
 biases = {
     'b1': tf.Variable(tf.random_normal([256])),
     'b2': tf.Variable(tf.random_normal([256])),
-    'b3': tf.Variable(tf.random_normal([256])),
     'out': tf.Variable(tf.random_normal([2]))
 }
 
