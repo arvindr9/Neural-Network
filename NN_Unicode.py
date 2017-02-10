@@ -239,7 +239,6 @@ biases = {
 }
 
 pred = multilayer_perceptron(x_vals, weights, biases)
-
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels = y_vals))
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 init = tf.global_variables_initializer()
