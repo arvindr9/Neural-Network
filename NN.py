@@ -17,7 +17,6 @@ def embed(file):
 
 	wordList = re.sub(ur"[\d]+", ' ', STR, re.UNICODE).split()
 
-
 	
 	word_vec = -1
 
@@ -30,9 +29,9 @@ def embed(file):
 	'\xc3\x86':125, '\xc3\xa6':125,
 	'\xc3\x87':126, '\xc3\xa7':126,
 	'\xc3\x88':127, '\xc3\xa8':127,
-	'\xc3\x89':128, '\xC3\xa9':128,
-	'\xc3\x8a':129, '\xC3\xaa':129,
-	'\xc3\x8b':130, '\xC3\xab':130,
+	'\xc3\x89':128, '\xc3\xa9':128,
+	'\xc3\x8a':129, '\xc3\xaa':129,
+	'\xc3\x8b':130, '\xc3\xab':130,
 	'\xc3\x8e':131, '\xc3\xae':131,
 	'\xc3\x8f':132, '\xc3\xaf':132,
 	'\xc3\x94':133, '\xc3\xb4':133,
@@ -62,7 +61,6 @@ def embed(file):
 		word_vec+=1
 		word_vecs[word_vec] = [0.0]*2970
 		for letter in word.lower():
-
 			if letter == '\xc3':
 				y = other[letter+word[(word.index(letter) +1)]]-97
 				word_vecs[word_vec][y]+=1
@@ -94,41 +92,85 @@ def embed(file):
 	letter_count = 0
 
 	for words in wordList:
-		words = words.lower()
-		while letter_count<(len(words)-3):
-			i = words[letter_count]
-			j = words[letter_count+1]
-			k = words[letter_count+2]
-			l = words[letter_count+3]
-			if ord(i) in range(97,123) and ord(j) not in range(97,123) and ord(k) not in range(97,123):
-				word_vecs[word_vec][(54*ord(i))+other[j+k]-5281]+=1
-				letter_count+=1
-
-			elif ord(i) not in range(97,123) and ord(j) not in range(97,123) and ord(k) in range(97,123):
-
-				word_vecs[word_vec][(54*other[i+j])+ord(k)-5281]+=1
-				letter_count+=1
-
-			elif ord(i) in range(97,123) and ord(j) in range(97,123) and ord(k) in range(97,123):
-				word_vecs[word_vec][(54*ord(i))+ord(j)-5281]+=1
-				letter_count+=1
-
-			elif ord(i) not in range(97,123) and ord(j) not in range(97,123) and ord(k) not in range(97,123) and ord(l) not in range(97,123):
+		words.lower()
+		if '\\' in repr(words):
+			while letter_count<(len(words)-2):
 				
-				word_vecs[word_vec][(54*other[i+j])+other[k+l]-5281]+=1
-				letter_count+=1
-			
-			else:
+				j = None
+				k = None
+				l = None
+				i = words[letter_count]
+				try:
+					j = words[letter_count+1]
+				except IndexError:
 
-				letter_count+=1
-				continue
-		word_vec+=1
-		letter_count = 0
+					pass
+				try:
+					k = words[letter_count+2]
+				except IndexError:
+					pass
+				try:
+					l = words[letter_count+3]
+				except IndexError:
+					pass
 
+				if '\\' in repr(i) and '\\' in repr(j) and '\\' in repr(k) and '\\' in repr(l):
+					word_vecs[word_vec][(54*other[i+j])+other[k+l]-5281]+=1
+					letter_count+=1
+				elif ('\\' in repr(i) and '\\' in repr(j) and '\\' in repr(k)) or ('\\' in repr(j) and '\\' in repr(k) and '\\' in repr(l)):
+					if '\\' in repr(j) and '\\' in repr(k) and '\\' in repr(l):
+						word_vecs[word_vec][(54*ord(i))+other[j+k]-5281]+=1
+						letter_count+=1
+					else:
+						pass
+				elif ("\\" in repr(i) and "\\" in repr(j)) or ("\\" in repr(j) and "\\" in repr(k)) or ("\\" in repr(k) and "\\" in repr(l)):
+					if "\\" in repr(i) and "\\" in repr(j):
 
+						word_vecs[word_vec][(54*other[i+j])+ord(k)-5281]+=1
+						letter_count+=1
+
+					elif "\\" in repr(j) and "\\" in repr(k):
+						word_vecs[word_vec][(54*ord(i))+other[j+k]-5281]+=1
+						letter_count+=1
+					elif "\\" in repr(k) and "\\" in repr(l):
+						word_vecs[word_vec][(54*ord(i))+ord(j)-5281]+=1
+						letter_count+=1
+					else:
+						pass
+				elif "\\" in repr(l):
+					word_vecs[word_vec][(54*ord(i))+ord(j)-5281]+=1
+					letter_count+=1
+				elif ("\\" in repr(i)) and (l == None):
+					word_vecs[word_vec][(54*ord(j))+ord(k)-5281]+=1
+					letter_count+=1
+				elif ('\\' in repr(i)) and ('\\' in repr(l)):
+					word_vecs[word_vec][(54*ord(j))+ord(k)-5281]+=1
+					letter_count+=1
+				elif (k==None and l==None) or (l==None) or ('\\' not in repr(i) and '\\' not in repr(j) and '\\' not in repr(k) and '\\' not in repr(l)):
+
+					word_vecs[word_vec][(54*ord(i))+ord(j)-5281]+=1
+					letter_count+=1
+
+				else:
+					letter_count+=1
+
+					pass
+
+			word_vec+=1
+			letter_count=0
+		else:
+			while letter_count<(len(words)-1):
+ 				i = words[letter_count]
+ 				j = words[letter_count+1]
+ 				word_vecs[word_vec][(54*ord(i))+ord(j)-5281]+=1
+
+ 				letter_count+=1
+ 			word_vec+=1
+ 		letter_count=0
 	word_vec = 0
 
-	for vec in word_vecs:
+
+	"""for vec in word_vecs:
 		SUM = 0.
 		for item in vec[:54]:
 			SUM+=item
@@ -136,17 +178,17 @@ def embed(file):
 		word_vecs[word_vec][:54] = [x/float(SUM) for x in word_vecs[word_vec][:54]]
 		#print word_vecs[word_vec][:54]
 		SUM = 0
-		"""for items in vec[54:]:
+		for items in vec[54:]:
 			SUM+=items
 		#print SUM
 		if SUM !=0:
 			word_vecs[word_vec][54:] = [x/float(SUM) for x in word_vecs[word_vec][54:]]
 		else:
-			continue"""
+			continue
 		
 		SUM = 0
-		word_vec+=1
-		vec[54:] = []
+		word_vec+=1"""
+
 
 
 	word_vec = 0
@@ -158,6 +200,9 @@ def embed(file):
 
 y = []
 word_vec_nn = embed("e-input.txt")
+
+
+
 
 
 for vec in word_vec_nn:
@@ -208,12 +253,12 @@ for x in range(len(word_vec_nn)):
 
 
 
-learning_rate = .001
-training_epochs = 15
+learning_rate = .0005
+training_epochs = 20
 x = 50
 
 
-x_vals = tf.placeholder("float", [None, 54])
+x_vals = tf.placeholder("float", [None, input_dim])
 y_vals = tf.placeholder(tf.int64, [None, 2])
 
 
@@ -228,13 +273,13 @@ def multilayer_perceptron(word_vec_nn, weights, biases):
     return out_layer
 
 weights = {
-    'h1': tf.Variable(tf.random_normal([54, 256])),
-    'h2': tf.Variable(tf.random_normal([256, 256])),
-    'out': tf.Variable(tf.random_normal([256, 2]))
+    'h1': tf.Variable(tf.random_normal([input_dim, 300])),
+    'h2': tf.Variable(tf.random_normal([300, 300])),
+    'out': tf.Variable(tf.random_normal([300, 2]))
 }
 biases = {
-    'b1': tf.Variable(tf.random_normal([256])),
-    'b2': tf.Variable(tf.random_normal([256])),
+    'b1': tf.Variable(tf.random_normal([300])),
+    'b2': tf.Variable(tf.random_normal([300])),
     'out': tf.Variable(tf.random_normal([2]))
 }
 
@@ -247,7 +292,7 @@ with tf.Session() as sess:
 	sess.run(init)
 	for epoch in range(training_epochs):
 		avg_cost = 0.
-		total_batch = ((len(x_vals_train)/50))
+		total_batch = ((len(x_vals_train)/x))
 		indices = []
 		for x in range(0,8000):
 
@@ -262,13 +307,13 @@ with tf.Session() as sess:
 			length = len(x_vals_train)
 			batch_x = []
 			batch_y = []
-			for i in range(50*z,50+50*z):
+			for i in range(x*z,x+x*z):
 
 				
-				batch_x.append(word_vec_nn[indices[i]])
+				batch_x.append(x_vals_train[indices[i]])
 				batch_y.append(y_vals_train[indices[i]])
 
-				z+=1
+			z+=1
 
 			c = sess.run([optimizer, cost], feed_dict={x_vals: batch_x, y_vals: batch_y})
 
@@ -277,6 +322,12 @@ with tf.Session() as sess:
 
 
 		print("Epoch:", '%04d' %(epoch+1), "cost=", "{:.9f}".format(avg_cost))
+		correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y_vals, 1))
+
+		accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+		np.asarray(x_vals_test)
+		np.asarray(y_vals_test)
+		print("Accuracy:", accuracy.eval({x_vals: x_vals_test, y_vals: y_vals_test}))
 
 	print("Optimization Finished!")
 
