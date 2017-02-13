@@ -270,7 +270,7 @@ for i in range(len(y)):
 	d.write(str(sess.run(biases['b1'])))
 	d.write("\n")
 	d.write(str(sess.run(biases['out'])))
-
+	d.close()
 
 
 
