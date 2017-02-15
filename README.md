@@ -12,10 +12,10 @@ The occurrences of each letter (unigram) in each word is counted, as are the occ
 Since many bigrams are never used in words, the program finds any indices for which every word vector in the training and testing sets have a value of zero and deletes them from the initial set of vectors, thereby reducing the size. For the english-italian classification system, the size of the vector after cleaning is 579. This increases the speed of the neural network.
 
 #####Neural Network:
-The neural network used is a single hidden layer that performs computations, consisting of one weight and bias for the hidden layer and one weight and bias for the output layer. Originally, these weights and biases are randomized, they are then adjusted by the optimizer to increase accuracy. The input vector is multiplied by the weight, and then the bias is added to it.
+The neural network used is a single hidden layer that performs computations, consisting of one weight and bias for the hidden layer and one weight and bias for the output layer. Originally, these weights and biases are randomized, they are then adjusted by the optimizer to increase accuracy. The input vector is multiplied by the weight, and then the bias is added to it for each layer.
 
 #####Training loop:
 This is a feed-forward neural network, meaning as the neural network is running through the training data, a cost function calculates how inaccurate the network is. An optimizer than attempts to minimize that cost by changing the weights and biases. This continues until the training data is run through 50 times, as specified in the program. At the end, the accuracy is calculated by testing the weights and biases of the neural network on the testing data and seeing how accurate it was.
 
 #####User Input:
-Using the weights and biases determined by the optimizer, the program takes an input of words from the user and returns their language. 
+Using the weights and biases determined by the optimizer, the program takes an input of words from the user and returns their language. Since the network does not run at 100% efficiency, the output vectors are not [1,0] or [0,1], as are the official values established for English and Italian respectively. However, the network "chooses" a language by making one element of the vector larger than the other, be it the first element for English or the second for Italian.
