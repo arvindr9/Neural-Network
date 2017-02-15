@@ -22,7 +22,9 @@
 cd (file directory)
 ```
 Or drag the folder into the Terminal window after entering `cd`
+
 4. Enter the following:
+
 ```
 python NN.py
 ```
