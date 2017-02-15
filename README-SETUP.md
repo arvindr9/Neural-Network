@@ -38,7 +38,8 @@ There will be a time delay until text appears on the screen because of the progr
 ```
 C:\Python27\python.exe 
 ```
-Then drag the file into command prompt and press enter.
+Then drag the file into command prompt and press enter. If it does not work, add a space in between the above code and dragging in the file.
+
 There will be a time delay until text appears on the screen because of the program embedding both 5000 word long input files. AFter that, the neural network portion of the program will start. After, the accuracy will be displayed and an input will requested.
 
 
