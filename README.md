@@ -3,9 +3,11 @@
 ####Refer to README-SETUP.md for instructions on downloading and running program
 
 What is it?
+
 A feed-forward neural network that takes inputs of word vectors created using n-gram analysis and returns outputs of vectors that correspond to languages.
 
 Input:
+
 The occurrences of each letter (unigram) in each word is counted, as are the occurrences of each pair of letters (bigram). Along with the 26 english alphabetic characters, there are an additional 28 characters that appear in other languages than english, like accented characters. The initial vector size is 2970, for the 54 possible single characters and the 2916 (54*54) possible pairs of characters. This is done through an embedding function.
 
 Word Vector Cleaning:
