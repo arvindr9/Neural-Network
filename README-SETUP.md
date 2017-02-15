@@ -2,13 +2,14 @@
 ####Please refer to README-INFO.md for information about program and methodology
 
 ####Mac
-* Python is installed by default
+
+* Python 2.7 is needed, and is installed by default
 * Tensorflow is required. Installation instructions can be found at https://www.tensorflow.org/get_started/os_setup
 * Numpy is also required. Installation instructions can be found at https://docs.scipy.org/doc/numpy-1.10.1/user/install.html
 
 ####Windows
 * Warning: Installation is more complicated for Windows than it is for Mac
-* Python is not normally installed by default. Installation instructions can be found at https://www.python.org/downloads/windows/
+* Python 2.7 is needed, but is not normally installed by default. Installation instructions can be found at https://www.python.org/downloads/windows/
 * Tensorflow is required. Installation instructions can be found at https://www.tensorflow.org/get_started/os_setup
 * Numpy is also required. Installation instructions can be found at https://docs.scipy.org/doc/numpy-1.10.1/user/install.html
 
@@ -29,6 +30,8 @@ There will be a time delay until text appears on the screen because of the progr
 
 ####Windows
 1. Download the repository from the green download button
+2. Open Command Prompt
+3. 
 
 
 
