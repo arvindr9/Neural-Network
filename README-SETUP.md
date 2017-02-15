@@ -35,11 +35,11 @@ There will be a time delay until text appears on the screen because of the progr
 3. Locate the repository folder, which is contained in Downloads, containing the file
 2. Open Command Prompt
 3. Enter `cd`, followed by a space, and then type the path of the repository folder. Then press enter
-4. Enter the following:
+4. Enter the following, followed by a space:
 ```
 Python27\python.exe 
 ```
-Then drag the file into command prompt and press enter. If it does not work, add a space in between the above code and dragging in the file.
+Then drag the file into command prompt and press enter.
 
 Refer to https://docs.python.org/2/faq/windows.html if a problem occurs.
 
