@@ -1,6 +1,6 @@
-##Screenshots of the output of the program can be found in the screenshots folder
+###Screenshots of the output of the program can be found in the screenshots folder
 
-###Refer to README-SETUP.md for instructions on downloading and running program
+####Refer to README-SETUP.md for instructions on downloading and running program
 
 What is it?
 A feed-forward neural network that takes inputs of word vectors created using n-gram analysis and returns outputs of vectors that correspond to languages.
