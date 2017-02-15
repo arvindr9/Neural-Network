@@ -12,6 +12,18 @@
 * Tensorflow is required. Installation instructions can be found at https://www.tensorflow.org/get_started/os_setup
 * Numpy is also required. Installation instructions can be found at https://docs.scipy.org/doc/numpy-1.10.1/user/install.html
 
+###Running the Program
+####Mac
+1. Download the repository from the green download button
+2. Open Terminal
+3. Enter the following:
+
+```
+cd (file directory)
+```
+
+
+
 
 
 
