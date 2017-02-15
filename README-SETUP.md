@@ -21,7 +21,7 @@
 ```
 cd (file directory)
 ```
-Or drag the folder into the Terminal window after entering `cd` and then press enter
+Or drag the folder into the Terminal window after entering `cd`, followed by a space, and then press enter
 
 Then, enter the following and then press enter:
 
@@ -32,9 +32,10 @@ There will be a time delay until text appears on the screen because of the progr
 
 ####Windows
 1. Download the repository from the green download button
-3. Open the folder, which is contained in Downloads, containing the file
+3. Locate the repository folder, which is contained in Downloads, containing the file
 2. Open Command Prompt
-3. Enter the following:
+3. Enter `cd`, followed by a space, and then drag in the repository folder. Then press enter
+4. Enter the following:
 ```
 C:\Python27\python.exe 
 ```
