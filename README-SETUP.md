@@ -21,9 +21,9 @@
 ```
 cd (file directory)
 ```
-Or drag the folder into the Terminal window after entering `cd`
+Or drag the folder into the Terminal window after entering `cd` and then press enter
 
-Then, enter the following:
+Then, enter the following and then press enter:
 
 ```
 python NN.py
@@ -32,8 +32,14 @@ There will be a time delay until text appears on the screen because of the progr
 
 ####Windows
 1. Download the repository from the green download button
+3. Open the folder, which is contained in Downloads, containing the file
 2. Open Command Prompt
-3. 
+3. Enter the following:
+```
+C:\Python27\python.exe 
+```
+then drag the file into command prompt and press enter.
+There will be a time delay until text appears on the screen because of the program embedding both 5000 word long input files. AFter that, the neural network portion of the program will start. After, the accuracy will be displayed and an input will requested.
 
 
 
