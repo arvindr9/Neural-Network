@@ -34,7 +34,7 @@ There will be a time delay until text appears on the screen because of the progr
 1. Download the repository from the green download button
 3. Locate the repository folder, which is contained in Downloads, containing the file
 2. Open Command Prompt
-3. Enter `cd`, followed by a space, and then drag in the repository folder. Then press enter
+3. Enter `cd`, followed by a space, and then type the path of the repository folder. Then press enter
 4. Enter the following:
 ```
 Python27\python.exe 
