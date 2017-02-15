@@ -1,5 +1,7 @@
 ###Screenshots of the output of the program can be found in the screenshots folder
 
+###Currently support for English and Italian
+
 ####Refer to README-SETUP.md for instructions on downloading and running program
 
 #####What is it?
