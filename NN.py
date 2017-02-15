@@ -371,6 +371,7 @@ with tf.Session() as sess:
 			y[x] = vec
 		input_dim = len(nonzeros)
 		language = [0,0]
+		#Classifying each word in the sentence
 		for i in range(len(y)):
 			asdf = y[i]
 			np.asarray(asdf)
@@ -383,11 +384,12 @@ with tf.Session() as sess:
 				language[1]+=1
 			else:
 				continue
+		#Deciding which language the sentence is in based off of which language the majority of words were classified as
 		if max(language) == language[0]:
 			print "The sentence is in English"
 		elif max(language) == language[1]:
 			print "The sentence is in Italian"
-
+		#Printing the language the program identified for each word
 		print "Item analysis:"
 		for i in range(len(y)):
 			asdf = y[i]
