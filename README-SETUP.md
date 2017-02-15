@@ -17,11 +17,18 @@
 1. Download the repository from the green download button
 2. Open Terminal
 3. Enter the following:
-
 ```
 cd (file directory)
 ```
+Or drag the folder into the Terminal window after entering ```cd```
+4. Enter the following:
+```
+python NN.py
+```
+5. There will be a time delay until text appears on the screen because of the program embedding both 5000 word long input files. AFter that, the neural network portion of the program will start. After, the accuracy will be displayed and an input will requested.
 
+####Windows
+1. Download the repository from the green download button
 
 
 
