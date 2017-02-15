@@ -19,7 +19,7 @@
 2. Open Terminal
 3. Enter the following:
 ```
-cd (file directory)
+cd file_directory
 ```
 Or drag the folder into the Terminal window after entering `cd`, followed by a space, and then press enter
 
