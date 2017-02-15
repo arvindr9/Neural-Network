@@ -28,7 +28,7 @@ Then, enter the following and then press enter:
 ```
 python NN.py
 ```
-There will be a time delay until text appears on the screen because of the program embedding both 5000 word long input files. AFter that, the neural network portion of the program will start. AFter, the accuracy will be displayed and an input will requested.
+There will be a time delay until text appears on the screen because of the program embedding both 5000 word long input files. AFter that, the neural network portion of the program will start. after, the accuracy will be displayed and an input will requested.
 
 ####Windows
 1. Download the repository from the green download button
