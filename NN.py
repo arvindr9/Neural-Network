@@ -22,6 +22,7 @@ def embed(file):
 	STR = STR.replace("!","")
 	STR = STR.replace(";","")
 	STR = STR.replace(":","")
+	STR = STR.replace("-","")
 	wordList = re.sub(ur"[\d]+", ' ', STR, re.UNICODE).split()
 
 	
